@@ -1,3 +1,6 @@
+
+console.log("hogesim2");
+
 var mArgs = {
 			color: 0x0000ff,
 			side: THREE.DoubleSide,
