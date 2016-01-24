@@ -1,5 +1,14 @@
 Template.operations.events({
-  'click .choice': function(e) {
-    console.log("hoge")
+  "click .codeselect": function() {
+    // event.preventDefault();
+    console.log("hoge");
+    // var operation = e
+
+    Operations.insert({
+      // operation:
+      createdAt: new Date()
+    });
+
+    console.log(Operations.find().count());
   }
 })

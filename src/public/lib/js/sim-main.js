@@ -170,11 +170,9 @@
 
    // nav
    var sendFlag = false;
-   $(".choice").on(
-     'click',
-     function(){
+   $(':button[name="codeselect"]').click(function(){
        if(selectedBox){
-         var code = $(this).attr('code');
+         var code = $(this).val();
          var result = operation(code, selectedBox);
          if (result){
            boxCommand(result, code);
@@ -185,6 +183,23 @@
        }
      }
    );
+
+  //  var sendFlag = false;
+  //  $(".choice").on(
+  //    'click',
+  //    function(){
+  //      if(selectedBox){
+  //        var code = $(this).attr('code');
+  //        var result = operation(code, selectedBox);
+  //        if (result){
+  //          boxCommand(result, code);
+  //        };
+  //        $("#lr").attr("code", "waiting");
+  //        $("#fb").attr("code", "waiting");
+  //        $("#tb").attr("code", "waiting");
+  //      }
+  //    }
+  //  );
 
    function boxCommand(result, code){
      // change selectMode

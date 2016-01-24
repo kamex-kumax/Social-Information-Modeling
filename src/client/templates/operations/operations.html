@@ -15,7 +15,9 @@
     <p id="tb" class="choice" code="initial">TOP / BOTTOM</p>
     <p id="lr" class="choice" code="initial">LEFT / RIGHT</p>
     <p id="fb" class="choice" code="initial">FRONT / BACK</p>
-    <p id="send" class="choice2">send</p>
+    <form class="operation">
+      <input type="button" name="codeselect" value="initial" class="codeselect"/>
+    </form>
     <p id="label" class="choice2">label</p>
   </nav>
 
@@ -25,4 +27,16 @@
   <nav id="info">
     <p>Social Information Modeller Ver0.1</p>
   </nav>
+
+  <script>
+  $("#choice").on(
+   'click',
+   '.choice',
+   function(){
+     console.log($(this).attr('code'));
+     var value = $(':button[name="codeselect"]').val($(this).attr('code'));
+   }
+  );
+
+  </script>
 </template>
