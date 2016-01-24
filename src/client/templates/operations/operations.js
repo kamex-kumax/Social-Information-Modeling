@@ -1,8 +1,5 @@
 Template.operations.events({
   "click .codeselect": function() {
-    // event.preventDefault();
-    console.log("hoge");
-    // var operation = e
 
     Operations.insert({
       // operation:
