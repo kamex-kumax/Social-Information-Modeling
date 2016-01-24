@@ -1,8 +1,6 @@
 /** @namespace */
 var Sim = Sim || {}
 
-console.log("hogesim");
-
 var pArgs = {
 				color: 0xff0000,
 				side: THREE.DoubleSide,
