@@ -1,9 +1,10 @@
 # Social Information Building (SIM)
 
 ## Change log
-* [CHANGELOG.md](CHANGELOG.md
+* [CHANGELOG.md](CHANGELOG.md)
 
 ## Collaborator
+* seibe
 * okawa
 
 ## License
