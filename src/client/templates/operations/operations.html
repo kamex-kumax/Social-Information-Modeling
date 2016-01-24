@@ -1,0 +1,42 @@
+<template name="operations">
+  <script src='/lib/js/OrbitControls.js'></script>
+  <script src='/lib/js/ColladaLoader.js'></script>
+  <script src='/lib/js/Projector.js'></script>
+  <script src='/lib/js/Detector.js'></script>
+  <script src='/lib/js/TransformControls.js'></script>
+  <script src='/lib/js/threex.windowresize.js'></script>
+  <!-- original -->
+  <script src='/lib/js/Sim.js'></script>
+  <script src='/lib/js/Sim2.js'></script>
+  <script src='/lib/js/sim-main.js'></script>
+
+  <nav id="choice">
+    <section>OPERATION</section>
+    <p id="tb" class="choice" code="initial">TOP / BOTTOM</p>
+    <p id="lr" class="choice" code="initial">LEFT / RIGHT</p>
+    <p id="fb" class="choice" code="initial">FRONT / BACK</p>
+    <form class="operation">
+      <input type="button" name="codeselect" value="initial" class="codeselect"/>
+    </form>
+    <p id="label" class="choice2">label</p>
+  </nav>
+
+  <nav id="log">
+    <section>LOG</section>
+  </nav>
+  <nav id="info">
+    <p>Social Information Modeller Ver0.1</p>
+  </nav>
+
+  <script>
+  $("#choice").on(
+   'click',
+   '.choice',
+   function(){
+     console.log($(this).attr('code'));
+     var value = $(':button[name="codeselect"]').val($(this).attr('code'));
+   }
+  );
+
+  </script>
+</template>
