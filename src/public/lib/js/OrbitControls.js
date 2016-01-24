@@ -7,12 +7,6 @@
  */
 /*global THREE, console */
 
-if (Meteor.isServer) {
-	self = {};
-} else {
-	self = window;
-}
-
 ( function () {
 
 	function OrbitConstraint ( object ) {

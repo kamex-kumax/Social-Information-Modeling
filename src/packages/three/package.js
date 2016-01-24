@@ -10,13 +10,13 @@ Package.describe({
   documentation: 'README.md'
 });
 
-Package.onUse(function(api) {
+Package.onUse(function(api, where) {
   api.versionsFrom('1.2.1');
   api.export('THREE');
 
   api.add_files([
       //core
-      'lib/three.min.js',
+      'lib/three.js',
 
       //packages
       'lib/Detector.js',

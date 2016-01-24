@@ -17,12 +17,6 @@
 /** @namespace */
 var THREEx	= THREEx || {}
 
-if (Meteor.isServer) {
-	self = {};
-} else {
-	self = window;
-}
-
 /**
  * Update renderer and camera when the window is resized
  *

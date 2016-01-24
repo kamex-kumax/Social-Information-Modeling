@@ -3,12 +3,6 @@
  * @author mr.doob / http://mrdoob.com/
  */
 
- if (Meteor.isServer) {
- 	self = {};
- } else {
- 	self = window;
- }
- 
 var Detector = {
 
 	canvas: !! window.CanvasRenderingContext2D,
