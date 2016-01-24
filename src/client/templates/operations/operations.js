@@ -1,8 +1,9 @@
 Template.operations.events({
-  "click .codeselect": function() {
+  "click .codeselect": function(ev) {
+    var operation = $(':button[name="codeselect"]').val();
 
     Operations.insert({
-      // operation:
+      operation: operation,
       createdAt: new Date()
     });
 
