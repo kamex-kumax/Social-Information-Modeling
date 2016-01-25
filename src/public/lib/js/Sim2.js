@@ -29,6 +29,14 @@ function selectColor(obj, RGB) {
 	obj.material.color.setRGB(RGB[0], RGB[1], RGB[2]);
 };
 
+// function selectColor(obj, RGB) {
+// 	if (obj.geometry.type == "BoxGeometry"){
+// 		obj.material.color.setRGB(RGB[0], selectBoxRGB[1], selectBoxRGB[1]);
+// 	} else if (obj.geometry.type == "PlaneGeometry"){
+// 		obj.material.color.setRGB(selectPlaneRGB[0], selectPlaneRGB[1], selectPlaneRGB[1]);
+// 	}
+// };
+
 function defaultColor(obj, RGB) {
 	obj.material.color.setRGB(RGB[0], RGB[1], RGB[2]);
 };

@@ -1,11 +1,19 @@
+Template.operations.helpers({
+  // manage log bar
+  operations: function() {
+    return Operations.find({
+      project: this._id
+    });
+  }
+})
+
 Template.operations.events({
-  "click .codeselect": function() {
-    // event.preventDefault();
-    console.log("hoge");
-    // var operation = e
+  "click .codeselect": function(ev) {
+    var operation = $(':button[name="codeselect"]').val();
 
     Operations.insert({
-      // operation:
+      project: this._id,
+      operation: operation,
       createdAt: new Date()
     });
 
