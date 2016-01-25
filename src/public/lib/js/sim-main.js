@@ -247,11 +247,12 @@
    );
 
    function logging(log){
-     if (log[1] != "waiting"){
-      var text = "<p class='log' planeCode='" + log[1] + "'boxCode='" + log[0] + "'>" + log[1] + "</p>"
-      $("#log").append(text);
-      log = null;
-     }
+    //  if (log[1] != "waiting"){
+    //   var text = "<p class='log' planeCode='" + log[1] + "'boxCode='" + log[0] + "'>" + log[1] + "</p>"
+    //   $("#log").append(text);
+    //   log = null;
+    //  }
+    console.log("logging");
    };
 
    // general

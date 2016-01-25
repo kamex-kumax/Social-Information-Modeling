@@ -23,6 +23,9 @@
 
   <nav id="log">
     <section>LOG</section>
+    {{#each operations }}
+      <p class='log' planeCode='' boxCode='{{ operation }}'>{{ operation }}</p>
+    {{/each}}
   </nav>
   <nav id="info">
     <p>Social Information Modeller Ver0.1</p>
