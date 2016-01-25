@@ -175,7 +175,7 @@
          var code = $(this).val();
          var result = operation(code, selectedBox);
          if (result){
-           boxCommand(result, code);
+           boxCommand(result, code, selectedBox);
          };
          $("#lr").attr("code", "waiting");
          $("#fb").attr("code", "waiting");
@@ -201,7 +201,7 @@
   //    }
   //  );
 
-   function boxCommand(result, code){
+   function boxCommand(result, code, selectedBox){
      // change selectMode
      selectMode = "box"
      // remove existed objects(planes) from the scene
@@ -261,5 +261,28 @@
        if (v==target) list.splice(i,1);
      });
    };
+
+
+   //log change detection
+   var count = 0;
+   $('#log').on('DOMSubtreeModified propertychange', function() {
+     count += 1;
+     if(count === 3){
+       count = 0;
+       var code = $('#log p:last-child').attr('boxcode');
+       console.log(boxList);
+       console.log(code.substr( 0 , (code.length-2)));
+       var selectedBox = boxList[code.substr( 0 , (code.length-2))]
+       console.log(selectedBox)
+       var result = operation(code, selectedBox);
+       console.log(result);
+       if (result){
+         boxCommand(result, code, selectedBox);
+       };
+       $("#lr").attr("code", "waiting");
+       $("#fb").attr("code", "waiting");
+       $("#tb").attr("code", "waiting");
+     }
+   });
 
 })();
