@@ -1,15 +1,17 @@
 <template name="projectsList">
   <h1>Social Information Modeling (is good)</h1><br>
+
   <div class="projectsList">
     <h2>Projects List</h2>
+
+    <div class="projectForm">
+      <form class="projects">
+        <input type="text" id="projectTitle" name="projectTitle" value="" placeholder="Name your project" class="addProject"/>
+      </form>
+    </div>
+    
     {{#each projects }}
       {{> projectItem }}
     {{/each }}
-  </div>
-
-  <div class="projectForm">
-    <form class="projects">
-      <input type="text" id="projectTitle" name="projectTitle" value="" placeholder="Name your project" class="addProject"/>
-    </form>
   </div>
 </template>

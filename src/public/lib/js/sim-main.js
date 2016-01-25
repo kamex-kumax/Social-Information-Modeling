@@ -11,9 +11,8 @@
       selectedBox = null,
       selectedPlane = null,
       defaultRGB = [1, 0, 0],
-      selectPlaneRGB = [0, 1, 0];
-      // topology = new graphlib.Graph();
-      // selectPlaneHEX = 0x00ff00;
+      selectPlaneRGB = [0, 1, 0],
+      changeFlag = false;
 
   // Scene
   var scene = new THREE.Scene()
@@ -169,13 +168,15 @@
 
 
    // nav
-   var sendFlag = false;
    $(':button[name="codeselect"]').click(function(){
        if(selectedBox){
          var code = $(this).val();
          var result = operation(code, selectedBox);
+         console.log("Tresult", result);
+         changeFlag = true;
          if (result){
-           boxCommand(result, code, selectedBox);
+           boxCommand(result, code);
+           changeFlag = true;
          };
          $("#lr").attr("code", "waiting");
          $("#fb").attr("code", "waiting");
@@ -201,7 +202,7 @@
   //    }
   //  );
 
-   function boxCommand(result, code, selectedBox){
+   function boxCommand(result, code){
      // change selectMode
      selectMode = "box"
      // remove existed objects(planes) from the scene
@@ -262,26 +263,27 @@
      });
    };
 
-
-   //log change detection
+  //  log change detection
    var count = 0;
+   var counter = 0;
    $('#log').on('DOMSubtreeModified propertychange', function() {
      count += 1;
      if(count === 3){
        count = 0;
-       var code = $('#log p:last-child').attr('boxcode');
-       console.log(boxList);
-       console.log(code.substr( 0 , (code.length-2)));
-       var selectedBox = boxList[code.substr( 0 , (code.length-2))]
-       console.log(selectedBox)
-       var result = operation(code, selectedBox);
-       console.log(result);
-       if (result){
-         boxCommand(result, code, selectedBox);
-       };
-       $("#lr").attr("code", "waiting");
-       $("#fb").attr("code", "waiting");
-       $("#tb").attr("code", "waiting");
+       console.log(changeFlag);
+       if (changeFlag===false) {
+          var code = $('#log p:last-child').attr('boxcode');
+          selectedBox = boxList[code.substr( 0 , (code.length-2))]
+          var result = operation(code, selectedBox);
+          console.log("Fresult", result);
+          if (result){
+            boxCommand(result, code);
+          };
+          $("#lr").attr("code", "waiting");
+          $("#fb").attr("code", "waiting");
+          $("#tb").attr("code", "waiting");
+       }
+       changeFlag = false;
      }
    });
 
