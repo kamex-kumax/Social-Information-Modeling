@@ -1,7 +1,22 @@
 <template name="projectsList">
   <h1>Social Information Modeling (is good)</h1><br>
+
+  <div class="howto">
+    <p>1. Namw your project from the form below, and pless Enter.</p>
+    <p>2. New project named by you appears at the top of the list below. Click this.</p>
+    <p>3. New tab window opens, and you'll see a blue box.</p>
+    <p>4. You can design the box with the commands in the "OPERATION" area. Hav fun!</p> 
+  </div>
+
   <div class="projectsList">
     <h2>Projects List</h2>
+
+    <div class="projectForm">
+      <form class="projects">
+        <input type="text" id="projectTitle" name="projectTitle" value="" placeholder="Name your project" class="addProject"/>
+      </form>
+    </div>
+
     {{#each projects }}
       {{> projectItem }}
     {{/each }}

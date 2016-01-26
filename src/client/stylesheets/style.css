@@ -12,9 +12,19 @@ nav section{
 }
 #choice {
   right: 0;
+  text-align: center;
 }
 .choice{
   cursor: pointer;
+  background-color: #0000ff;
+  opacity: 0.5;
+  color: #fff;
+  padding: 5px;
+  text-align: center;
+}
+.codeselect{
+  width: 120px;
+  height: 60px;
 }
 #log{
   left: 0;
