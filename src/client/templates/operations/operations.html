@@ -18,7 +18,7 @@
     <form class="operation">
       <input type="button" name="codeselect" value="initial" class="codeselect"/>
     </form>
-    <p id="label" class="choice2">label</p>
+    <!-- <p id="label" class="choice2">label</p> -->
   </nav>
 
   <nav id="log">
@@ -36,7 +36,6 @@
    'click',
    '.choice',
    function(){
-     console.log($(this).attr('code'));
      var value = $(':button[name="codeselect"]').val($(this).attr('code'));
    }
   );

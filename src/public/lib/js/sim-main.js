@@ -264,27 +264,27 @@
    };
 
   //  log change detection
-   var count = 0;
-   var counter = 0;
-   $('#log').on('DOMSubtreeModified propertychange', function() {
-     count += 1;
-     if(count === 3){
-       count = 0;
-       console.log(changeFlag);
-       if (changeFlag===false) {
-          var code = $('#log p:last-child').attr('boxcode');
-          selectedBox = boxList[code.substr( 0 , (code.length-2))]
-          var result = operation(code, selectedBox);
-          console.log("Fresult", result);
-          if (result){
-            boxCommand(result, code);
-          };
-          $("#lr").attr("code", "waiting");
-          $("#fb").attr("code", "waiting");
-          $("#tb").attr("code", "waiting");
-       }
-       changeFlag = false;
-     }
-   });
+  //  var count = 0;
+  //  var counter = 0;
+  //  $('#log').on('DOMSubtreeModified propertychange', function() {
+  //    count += 1;
+  //    if(count === 3){
+  //      count = 0;
+  //      console.log(changeFlag);
+  //      if (changeFlag===false) {
+  //         var code = $('#log p:last-child').attr('boxcode');
+  //         selectedBox = boxList[code.substr( 0 , (code.length-2))]
+  //         var result = operation(code, selectedBox);
+  //         console.log("Fresult", result);
+  //         if (result){
+  //           boxCommand(result, code);
+  //         };
+  //         $("#lr").attr("code", "waiting");
+  //         $("#fb").attr("code", "waiting");
+  //         $("#tb").attr("code", "waiting");
+  //      }
+  //      changeFlag = false;
+  //    }
+  //  });
 
 })();
