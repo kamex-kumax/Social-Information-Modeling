@@ -1,4 +1,4 @@
-(function(){
+$(function(){
 
   var width = window.innerWidth,
       height = window.innerHeight,
@@ -21,6 +21,9 @@
   var whd = [120, 120, 120];
   var pts = [20, whd[1]/2, 10];
 
+  console.log(THREE);
+
+  // this code below runs when the state is an initial one.
   var geometry = new THREE.BoxGeometry(whd[0], whd[1], whd[2]);
   var material = new THREE.MeshLambertMaterial({
     color: 0x0000ff,
@@ -168,32 +171,37 @@
 
 
    // nav
-   $(':button[name="codeselect"]').click(function(){
+   var count = 0;
+   $('#log').on('DOMSubtreeModified propertychange', function(){
+     count += 1;
+     if (count === 3) {
+       count = 0;
+       var code = $('#log p:last-child').attr('boxcode');
+       console.log("code", code);
+       selectedBox = boxList[code.substr( 0 , (code.length-2))];
+       console.log("box", selectedBox);
        if(selectedBox){
-         var code = $(this).val();
+         console.log("scene before operation", scene.children);
          var result = operation(code, selectedBox);
-         console.log("Tresult", result);
-         changeFlag = true;
+         console.log("scene after operation", scene.children);
          if (result){
            boxCommand(result, code);
-           changeFlag = true;
          };
          $("#lr").attr("code", "waiting");
          $("#fb").attr("code", "waiting");
          $("#tb").attr("code", "waiting");
        }
      }
-   );
+   });
 
-  //  var sendFlag = false;
-  //  $(".choice").on(
-  //    'click',
-  //    function(){
+  //  $(':button[name="codeselect"]').click(function(){
   //      if(selectedBox){
-  //        var code = $(this).attr('code');
+  //        var code = $(this).val();
   //        var result = operation(code, selectedBox);
+  //        changeFlag = true;
   //        if (result){
   //          boxCommand(result, code);
+  //          changeFlag = true;
   //        };
   //        $("#lr").attr("code", "waiting");
   //        $("#fb").attr("code", "waiting");
@@ -208,9 +216,11 @@
      // remove existed objects(planes) from the scene
      // at this time, targetList is the planes which we need to elase
      $.map(targetList, function(target){scene.remove(target)});
+     console.log("refreshed scene", scene.children);
      // remove selectedBox from boxList
      delete boxList[selectedBox.name];
      // extend boxList and planeList
+     console.log("boxListBefore", boxList);
      $.extend(boxList, result.boxList);
      $.extend(planeList, result.plane);
      // refresh targetList to box only
@@ -220,9 +230,20 @@
      };
      removeFromList(targetList, selectedBox);
      // add new boxes to the scene
-     for (key in result.boxList) {
-       scene.add(result.boxList[key]);
+     console.log("boxList", boxList); // kokokara
+     console.log("before", scene.children);
+     // refresh scene again
+     for (key in boxList) {
+       scene.remove(result.boxList[key]);
+     }
+     console.log("scene refreshhed again", scene.children);
+     for (key in boxList) {
+			 console.log(key);
+       scene.add(boxList[key]);
+       console.log(boxList[key]);
+       console.log(scene.children);
      };
+     console.log("final", scene.children); //koko!!
      //logging
      logging([selectedBox.name, code]);
      //updateTopology
@@ -262,29 +283,4 @@
        if (v==target) list.splice(i,1);
      });
    };
-
-  //  log change detection
-  //  var count = 0;
-  //  var counter = 0;
-  //  $('#log').on('DOMSubtreeModified propertychange', function() {
-  //    count += 1;
-  //    if(count === 3){
-  //      count = 0;
-  //      console.log(changeFlag);
-  //      if (changeFlag===false) {
-  //         var code = $('#log p:last-child').attr('boxcode');
-  //         selectedBox = boxList[code.substr( 0 , (code.length-2))]
-  //         var result = operation(code, selectedBox);
-  //         console.log("Fresult", result);
-  //         if (result){
-  //           boxCommand(result, code);
-  //         };
-  //         $("#lr").attr("code", "waiting");
-  //         $("#fb").attr("code", "waiting");
-  //         $("#tb").attr("code", "waiting");
-  //      }
-  //      changeFlag = false;
-  //    }
-  //  });
-
-})();
+});

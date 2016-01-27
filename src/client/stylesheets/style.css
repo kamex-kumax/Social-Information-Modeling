@@ -9,6 +9,7 @@ nav {
 }
 nav section{
   font-size: 150%;
+  margin-bottom: 10px;
 }
 #choice {
   right: 0;
