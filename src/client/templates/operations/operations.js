@@ -10,6 +10,10 @@ Template.operations.events({
       });
       $(':button[name="codeselect"]').val("waiting");
     };
+  },
+
+  "click .addLabel": function() {
+    Modal.show('addLabel')
   }
 })
 

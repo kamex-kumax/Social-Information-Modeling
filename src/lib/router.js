@@ -4,7 +4,7 @@ Router.configure({
   // waitOn: function() { return Meteor.subscribe('operations'); }
 });
 
-Router.route('/sample', {name: 'operations'});
+Router.route('/sample', {name: 'threesample'});
 Router.route('/', {name: 'projectsList'});
 Router.route('/projects/:_id', {
   name: 'projectPage',

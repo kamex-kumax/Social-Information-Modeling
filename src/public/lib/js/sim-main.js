@@ -11,7 +11,7 @@ $(function(){
       selectedBox = null,
       selectedPlane = null,
       defaultRGB = "#ff0000",
-      selectPlaneRGB = "00ff00",
+      selectPlaneRGB = "#00ff00",
 			textColor = 0x000000,
 			textLabel = "SIM";
 
@@ -81,7 +81,7 @@ $(function(){
   );
 
   // light
-  var light = new THREE.DirectionalLight(0xffffff, 1, 100000);
+  var light = new THREE.DirectionalLight(0xffffff, 1);
   light.position.set(0, 100, 30);
   scene.add(light);
   var ambient = new THREE.AmbientLight(0xffffff);
@@ -175,10 +175,12 @@ $(function(){
    function selectPlane(plane){
      if (plane == selectedPlane){
        selectedPlane.material.color.setStyle( defaultRGB );
+       console.log("selPlane", selectedPlane.material.color);
        unSelectPlane();
      } else {
        if (selectedPlane) {
          selectedPlane.material.color.setStyle( defaultRGB );
+         console.log("selPlane", selectedPlane.material.color);
        };
        plane.material.color.setStyle( selectPlaneRGB );
        //  update selected plane
@@ -289,98 +291,95 @@ $(function(){
      });
    };
 
-	//  text mapping
-	$('#label').on('click', function(){
-    console.log("hoge");
-		if(selectedBox){
-			var text = textMapping(selectedBox, textLabel, textColor);
-      console.log("ponpon")
-			scene.add(text);
-      console.log("weiweiwei")
-		}
-	});
+   //  text mapping
+   $('#label').on('click', function(){
+     if(selectedBox){
+       var text = textMapping(selectedBox, textLabel, textColor);
+       scene.add(text);
+     }
+   });
 
-	function textMapping(box, label, color){
-  	 var parameters = box.geometry.parameters,
-  			 position = box.position,
-  			 w = parameters.width,
-  			 h = parameters.height,
-  			 d = parameters.depth,
-  			 x = position.x,
-  			 y = position.y,
-  			 z = position.z,
-         length = label.length;
+   function textMapping(box, label, color){
+      var parameters = box.geometry.parameters,
+          position = box.position,
+          w = parameters.width,
+          h = parameters.height,
+          d = parameters.depth,
+          x = position.x,
+          y = position.y,
+          z = position.z,
+          length = label.length;
 
-  	 var textParameter = {
-  		 size: w/length, // how to know this?
-  		 height: d, // how to know this?
-  		 curveSegments: 3,
-  		 font: "helvetiker",
-  		 weight: "bold",
-  		 style: "normal",
-  		 bevelThickness: 1,
-  		 bevelSize: 2,
-  		 bevelEnabled: true
-  	 }
+      var textParameter = {
+        size: w/length, // how to know this?
+        height: d, // how to know this?
+        curveSegments: 3,
+        font: "helvetiker",
+        weight: "bold",
+        style: "normal",
+        bevelThickness: 1,
+        bevelSize: 2,
+        bevelEnabled: true
+      }
 
-  	 var TextGeometry = new THREE.TextGeometry( label, textParameter);
-  	 var Material = new THREE.MeshLambertMaterial( { color: color } );
-  	 var text =  new THREE.Mesh( TextGeometry, Material );
+      var TextGeometry = new THREE.TextGeometry( label, textParameter);
+      var Material = new THREE.MeshLambertMaterial( { color: color } );
+      var text =  new THREE.Mesh( TextGeometry, Material );
 
-     if((d>w && w>h) || (d>h && h>w)){
-  		 text.rotation.set(0,Math.PI/2,0);
-  		 text.position.x = x-w/2;
-  		 text.position.y=y-h/2;
-  		 text.position.z=z+d/2;
-       console.log("pon00");
-  		 text.scale.x = d/w;
-  		 text.scale.y = (h*length)/w;
-  		 //text.scale.y=(h*length*0.8)/w;
-  		 text.scale.z = w/d;
-       console.log("pon00");
-  	 }
+      if((d>w && w>h) || (d>h && h>w)){
+        text.rotation.set(0,Math.PI/2,0);
+        text.position.x = x-w/2;
+        text.position.y=y-h/2;
+        text.position.z=z+d/2;
+        console.log("pon00");
+        text.scale.x = d/w;
+        text.scale.y = (h*length)/w;
+        //text.scale.y=(h*length*0.8)/w;
+        text.scale.z = w/d;
+        console.log("pon00");
+      }
 
-  	 else if(h>w && w>d){
-  		 text.rotation.set(0,0,Math.PI/2)
-  		 text.position.x = x+w/2;
-  		 text.position.y = y-h/2;
-  		 text.position.z = z-d/2;
-       console.log("pon01");
+      else if(h>w && w>d){
+        text.rotation.set(0,0,Math.PI/2)
+        text.position.x = x+w/2;
+        text.position.y = y-h/2;
+        text.position.z = z-d/2;
+        console.log("pon01");
 
-  		 text.scale.x = h/w;
-  		 text.scale.y = length;
-       console.log("pon01");
-  		 //text.scale.y=length*0.8;
-  	 }
+        text.scale.x = h/w;
+        text.scale.y = length;
+        console.log("pon01");
+        //text.scale.y=length*0.8;
+      }
 
-  	 else if(h>d &&d>w ){
-  		 text.rotation.set(0,Math.PI/2,Math.PI/2);
-  		 text.position.x = x-w/2;
-  		 text.position.y = y-h/2;
-  		 text.position.z = z-d/2;
-       console.log("pon10");
+      else if(h>d &&d>w ){
+        text.rotation.set(0,Math.PI/2,Math.PI/2);
+        text.position.x = x-w/2;
+        text.position.y = y-h/2;
+        text.position.z = z-d/2;
+        console.log("pon10");
 
-  		 text.scale.x = h/w;
-  		 //ext.scale.x=(0.9*h)/w;
-  		 text.scale.y = (length*d)/w;
-  		 //text.scale.y=(0.85*length*d)/w;
-  		 text.scale.z = w/d;
-       console.log("pon10");
-  	 }
+        text.scale.x = h/w;
+        //ext.scale.x=(0.9*h)/w;
+        text.scale.y = (length*d)/w;
+        //text.scale.y=(0.85*length*d)/w;
+        text.scale.z = w/d;
+        console.log("pon10");
+      }
 
-  	 else{
-  		 text.position.x = x-w/2;
-  		 text.position.y = y-h/2;
-  		 text.position.z = z-d/2;
-       console.log("pon11");
+      else{
+        text.position.x = x-w/2;
+        text.position.y = y-h/2;
+        text.position.z = z-d/2;
+        console.log("pon11");
 
-  		 text.scale.y = (h*length)/w;
-       console.log("h, length. w", h, length, w)
-       console.log(text.scale.y);
-       console.log("pon11");
-  		 //text.scale.y=(h*length*0.9)/w;
-  	 }
+        text.scale.y = (h*length)/w;
+        console.log("h, length. w", h, length, w)
+        console.log(text.scale.y);
+        console.log("pon11");
+        //text.scale.y=(h*length*0.9)/w;
+      }
 
-  	 return text
-	};
+      return text
+   };
 });
