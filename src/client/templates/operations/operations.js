@@ -2,13 +2,14 @@ Template.operations.events({
   "click .codeselect": function(ev) {
     var operation = $(':button[name="codeselect"]').val();
 
-    Operations.insert({
-      project: this._id,
-      operation: operation,
-      createdAt: new Date()
-    });
-    
-    console.log(Operations.find().count());
+    if(operation !== "waiting") {
+      Operations.insert({
+        project: this._id,
+        operation: operation,
+        createdAt: new Date()
+      });
+      $(':button[name="codeselect"]').val("waiting");
+    };
   }
 })
 

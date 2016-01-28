@@ -22,4 +22,6 @@ underscore
 iron:router
 sacha:spin
 mizzao:bootstrap-3
+peppelg:bootstrap-3-modal
+mrt:three.js
 infinitedg:three

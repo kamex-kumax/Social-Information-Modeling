@@ -1,5 +1,7 @@
 body { margin: 0; }
+
 canvas { width: 100%; height: 100%; }
+
 nav {
   position: absolute;
   background-color: #FFF;
@@ -7,15 +9,18 @@ nav {
   padding: 20px;
   font-weight: bold;
 }
+
 nav section{
   font-size: 150%;
   margin-bottom: 10px;
 }
+
 #choice {
   right: 0;
   text-align: center;
 }
-.choice{
+
+.operationButton{
   cursor: pointer;
   background-color: #0000ff;
   opacity: 0.5;
@@ -23,10 +28,20 @@ nav section{
   padding: 5px;
   text-align: center;
 }
+
 .codeselect{
   width: 120px;
   height: 60px;
 }
+
+/*label*/
+.addLabel{
+  background-color: #00ff00;
+  margin-top: 20px;
+}
+
+
+  /*log*/
 #log{
   left: 0;
 }
