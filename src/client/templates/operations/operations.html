@@ -1,30 +1,34 @@
 <template name="operations">
+	<!-- <script src="/lib/js/helvetiker_bold.typeface.js"></script>
   <script src='/lib/js/OrbitControls.js'></script>
   <script src='/lib/js/ColladaLoader.js'></script>
   <script src='/lib/js/Projector.js'></script>
   <script src='/lib/js/Detector.js'></script>
   <script src='/lib/js/TransformControls.js'></script>
-  <script src='/lib/js/threex.windowresize.js'></script>
+  <script src='/lib/js/threex.windowresize.js'></script> -->
   <!-- original -->
-  <script src='/lib/js/Sim.js'></script>
-  <script src='/lib/js/Sim2.js'></script>
+  <!-- <script src='/lib/js/Sim.js'></script>
+  <script src='/lib/js/Sim2.js'></script> -->
+  <script src="/lib/js/geometries/TextGeometry.js"></script>
+  <script src="/lib/js/utils/FontUtils.js"></script>
+  <script src="/lib/js/helvetiker_bold.typeface.js"></script>
   <script src='/lib/js/sim-main.js'></script>
 
   <nav id="choice">
     <section>OPERATION</section>
-    <p id="tb" class="choice" code="initial">TOP / BOTTOM</p>
-    <p id="lr" class="choice" code="initial">LEFT / RIGHT</p>
-    <p id="fb" class="choice" code="initial">FRONT / BACK</p>
+    <p id="tb" class="choice operationButton" code="waiting">TOP / BOTTOM</p>
+    <p id="lr" class="choice operationButton" code="waiting">LEFT / RIGHT</p>
+    <p id="fb" class="choice operationButton" code="waiting">FRONT / BACK</p>
     <form class="operation">
-      <input type="button" name="codeselect" value="initial" class="codeselect"/>
+      <input type="button" name="codeselect" value="waiting" class="codeselect"/>
     </form>
-    <!-- <p id="label" class="choice2">label</p> -->
+    <p id="label" class="addLabel operationButton" code="initial">LABEL</p>
   </nav>
 
   <nav id="log">
     <section>LOG</section>
     {{#each operations }}
-      <p class='log' planeCode='' boxCode='{{ operation }}'>{{ operation }}</p>
+      <p class='log' boxCode='{{ operationTree }}'>{{ operationTree }}</p>
     {{/each}}
   </nav>
   <nav id="info">

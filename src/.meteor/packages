@@ -18,7 +18,13 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 
 autopublish             # Publish all data to the clients (for prototyping)
 insecure                # Allow all DB writes from clients (for prototyping)
-mrt:three.js
 underscore
 iron:router
 sacha:spin
+mizzao:bootstrap-3
+peppelg:bootstrap-3-modal
+mrt:three.js
+ian:accounts-ui-bootstrap-3
+accounts-password
+limemakers:three
+kidovate:dagred3

@@ -1,7 +1,7 @@
-(function(){
+$(function(){
 
-  var width = window.innerWidth,
-      height = window.innerHeight,
+  var width = window.innerWidth - 5,
+      height = window.innerHeight - 5,
       line,
       i,
       boxList = {},
@@ -10,9 +10,10 @@
       selectMode = "box",
       selectedBox = null,
       selectedPlane = null,
-      defaultRGB = [1, 0, 0],
-      selectPlaneRGB = [0, 1, 0],
-      changeFlag = false;
+      defaultRGB = "#ff0000",
+      selectPlaneRGB = "#00ff00",
+			textColor = 0x000000,
+			textLabel = "SIM";
 
   // Scene
   var scene = new THREE.Scene()
@@ -21,6 +22,29 @@
   var whd = [120, 120, 120];
   var pts = [20, whd[1]/2, 10];
 
+  console.log(THREE);
+
+  // var radius = 50,
+  //     segments = 16,
+  //     rings = 16;
+  //
+  // var sphereMaterial =
+  //   new THREE.MeshLambertMaterial({
+  //     color: 0xCC0000
+  //   })
+  //
+  // var sphere = new THREE.Mesh(
+  //
+  //   new THREE.SphereGeometry(
+  //     radius,
+  //     segments,
+  //     rings),
+  //
+  //   sphereMaterial);
+  //
+  // scene.add(sphere);
+
+  // this code below runs when the state is an initial one.
   var geometry = new THREE.BoxGeometry(whd[0], whd[1], whd[2]);
   var material = new THREE.MeshLambertMaterial({
     color: 0x0000ff,
@@ -28,6 +52,7 @@
     opacity: 0.5,
     transparent: true
   });
+  console.log("boxmaterial", material);
   var initBox = new THREE.Mesh(geometry, material);
   var initName = "0";
   initBox.position.set(pts[0], pts[1], pts[2]);
@@ -36,11 +61,24 @@
   targetList.push(initBox);
   boxList[initBox.name] = initBox;
   initPlanes = initBox.planeBox();
-  // i wanna use children for an ease
-  // $.map(initPlanes[initBox.name], function(plane){initBox.add(plane)});
   $.extend(planeList, initPlanes);
-  //Inital topology
-  // topology.setNode(initName, initBox);
+
+
+  // instantiate a loader
+  var loader = new THREE.ColladaLoader();
+
+  loader.load(
+  	// resource URL
+  	'/models/model/monster.dae',
+  	// Function when resource is loaded
+  	function ( collada ) {
+  		scene.add( collada.scene );
+  	},
+  	// Function called when download progresses
+  	function ( xhr ) {
+  		console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+  	}
+  );
 
   // light
   var light = new THREE.DirectionalLight(0xffffff, 1);
@@ -50,7 +88,7 @@
   scene.add(ambient);
   // camera
   var camera = new THREE.PerspectiveCamera(45, width / height);
-  camera.position.set(200, 200, 300);
+  camera.position.set(200, 400, 300);
 
   // helper
   var axis = new THREE.AxisHelper(1000);
@@ -107,7 +145,6 @@
           makeChoice(obj);
         } else if (obj.geometry.type == "PlaneGeometry") {
           selectPlane(obj);
-          // makeChoice(selectedPlane);
         }
       }
     };
@@ -137,13 +174,15 @@
 
    function selectPlane(plane){
      if (plane == selectedPlane){
-       selectedPlane.material.color.setRGB(defaultRGB[0], defaultRGB[1], defaultRGB[2]);
+       selectedPlane.material.color.setStyle( defaultRGB );
+       console.log("selPlane", selectedPlane.material.color);
        unSelectPlane();
      } else {
        if (selectedPlane) {
-         selectedPlane.material.color.setRGB(defaultRGB[0], defaultRGB[1], defaultRGB[2]);
+         selectedPlane.material.color.setStyle( defaultRGB );
+         console.log("selPlane", selectedPlane.material.color);
        };
-       plane.material.color.setRGB(selectPlaneRGB[0], selectPlaneRGB[1], selectPlaneRGB[2]);
+       plane.material.color.setStyle( selectPlaneRGB );
        //  update selected plane
        selectedPlane = plane;
      };
@@ -168,39 +207,24 @@
 
 
    // nav
-   $(':button[name="codeselect"]').click(function(){
+   var count = 0;
+   $('#log').on('DOMSubtreeModified propertychange', function(){
+     count += 1;
+     if (count === 3) {
+       count = 0;
+       var code = $('#log p:last-child').attr('boxcode');
+       selectedBox = boxList[code.substr( 0 , (code.length-2))];
        if(selectedBox){
-         var code = $(this).val();
          var result = operation(code, selectedBox);
-         console.log("Tresult", result);
-         changeFlag = true;
          if (result){
            boxCommand(result, code);
-           changeFlag = true;
          };
          $("#lr").attr("code", "waiting");
          $("#fb").attr("code", "waiting");
          $("#tb").attr("code", "waiting");
        }
      }
-   );
-
-  //  var sendFlag = false;
-  //  $(".choice").on(
-  //    'click',
-  //    function(){
-  //      if(selectedBox){
-  //        var code = $(this).attr('code');
-  //        var result = operation(code, selectedBox);
-  //        if (result){
-  //          boxCommand(result, code);
-  //        };
-  //        $("#lr").attr("code", "waiting");
-  //        $("#fb").attr("code", "waiting");
-  //        $("#tb").attr("code", "waiting");
-  //      }
-  //    }
-  //  );
+   });
 
    function boxCommand(result, code){
      // change selectMode
@@ -220,8 +244,12 @@
      };
      removeFromList(targetList, selectedBox);
      // add new boxes to the scene
-     for (key in result.boxList) {
-       scene.add(result.boxList[key]);
+     // refresh scene again
+     for (key in boxList) {
+       scene.remove(result.boxList[key]);
+     }
+     for (key in boxList) {
+       scene.add(boxList[key]);
      };
      //logging
      logging([selectedBox.name, code]);
@@ -263,28 +291,99 @@
      });
    };
 
-  //  log change detection
-  //  var count = 0;
-  //  var counter = 0;
-  //  $('#log').on('DOMSubtreeModified propertychange', function() {
-  //    count += 1;
-  //    if(count === 3){
-  //      count = 0;
-  //      console.log(changeFlag);
-  //      if (changeFlag===false) {
-  //         var code = $('#log p:last-child').attr('boxcode');
-  //         selectedBox = boxList[code.substr( 0 , (code.length-2))]
-  //         var result = operation(code, selectedBox);
-  //         console.log("Fresult", result);
-  //         if (result){
-  //           boxCommand(result, code);
-  //         };
-  //         $("#lr").attr("code", "waiting");
-  //         $("#fb").attr("code", "waiting");
-  //         $("#tb").attr("code", "waiting");
-  //      }
-  //      changeFlag = false;
-  //    }
-  //  });
+   //  text mapping
+   $('#label').on('click', function(){
+     if(selectedBox){
+       var text = textMapping(selectedBox, textLabel, textColor);
+       scene.add(text);
+     }
+   });
 
-})();
+   function textMapping(box, label, color){
+      var parameters = box.geometry.parameters,
+          position = box.position,
+          w = parameters.width,
+          h = parameters.height,
+          d = parameters.depth,
+          x = position.x,
+          y = position.y,
+          z = position.z,
+          length = label.length;
+
+      var textParameter = {
+        size: w/length, // how to know this?
+        height: d, // how to know this?
+        curveSegments: 3,
+        font: "helvetiker",
+        weight: "bold",
+        style: "normal",
+        bevelThickness: 1,
+        bevelSize: 2,
+        bevelEnabled: true
+      }
+
+      var TextGeometry = new THREE.TextGeometry( label, textParameter);
+      var Material = new THREE.MeshLambertMaterial({
+        color: color,
+        side: THREE.DoubleSide,
+        opacity: 0.5,
+        transparent: true
+      });
+      var text =  new THREE.Mesh( TextGeometry, Material );
+
+      console.log(w, h, d);
+
+      if((d>w && w>h) || (d>h && h>w)){
+        text.rotation.set(0,Math.PI/2,0);
+        text.position.x = x-w/2;
+        text.position.y=y-h/2;
+        text.position.z=z+d/2;
+        console.log("pon00");
+        text.scale.x = d/w;
+        text.scale.y = (h*length)/w;
+        //text.scale.y=(h*length*0.8)/w;
+        text.scale.z = w/d;
+        console.log("pon00");
+      }
+
+      else if(h>w && w>d){
+        text.rotation.set(0,0,Math.PI/2)
+        text.position.x = x+w/2;
+        text.position.y = y-h/2;
+        text.position.z = z-d/2;
+        console.log("pon01");
+
+        text.scale.x = h/w;
+        text.scale.y = length;
+        console.log("pon01");
+        //text.scale.y=length*0.8;
+      }
+
+      else if(h>d && d>w ){
+        text.rotation.set(0,Math.PI/2,Math.PI/2);
+        text.position.x = x-w/2;
+        text.position.y = y-h/2;
+        text.position.z = z-d/2;
+        console.log("pon10");
+
+        text.scale.x = h/w;
+        //ext.scale.x=(0.9*h)/w;
+        text.scale.y = (length*d)/w;
+        //text.scale.y=(0.85*length*d)/w;
+        text.scale.z = w/d;
+        console.log("pon10");
+      }
+
+      else{
+        text.position.x = x-w/2;
+        text.position.y = y-h/2;
+        text.position.z = z-d/2;
+        console.log("pon11");
+
+        text.scale.y = (h*length)/w;
+        //text.scale.y=(h*length*0.9)/w;
+      }
+
+      return text
+   };
+});
