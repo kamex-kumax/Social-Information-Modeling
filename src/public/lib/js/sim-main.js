@@ -1,7 +1,7 @@
 $(function(){
 
-  var width = window.innerWidth,
-      height = window.innerHeight,
+  var width = window.innerWidth - 5,
+      height = window.innerHeight - 5,
       line,
       i,
       boxList = {},
@@ -88,7 +88,7 @@ $(function(){
   scene.add(ambient);
   // camera
   var camera = new THREE.PerspectiveCamera(45, width / height);
-  camera.position.set(200, 200, 300);
+  camera.position.set(200, 400, 300);
 
   // helper
   var axis = new THREE.AxisHelper(1000);
@@ -323,8 +323,15 @@ $(function(){
       }
 
       var TextGeometry = new THREE.TextGeometry( label, textParameter);
-      var Material = new THREE.MeshLambertMaterial( { color: color } );
+      var Material = new THREE.MeshLambertMaterial({
+        color: color,
+        side: THREE.DoubleSide,
+        opacity: 0.5,
+        transparent: true
+      });
       var text =  new THREE.Mesh( TextGeometry, Material );
+
+      console.log(w, h, d);
 
       if((d>w && w>h) || (d>h && h>w)){
         text.rotation.set(0,Math.PI/2,0);
@@ -352,7 +359,7 @@ $(function(){
         //text.scale.y=length*0.8;
       }
 
-      else if(h>d &&d>w ){
+      else if(h>d && d>w ){
         text.rotation.set(0,Math.PI/2,Math.PI/2);
         text.position.x = x-w/2;
         text.position.y = y-h/2;
@@ -374,9 +381,6 @@ $(function(){
         console.log("pon11");
 
         text.scale.y = (h*length)/w;
-        console.log("h, length. w", h, length, w)
-        console.log(text.scale.y);
-        console.log("pon11");
         //text.scale.y=(h*length*0.9)/w;
       }
 

@@ -3,12 +3,45 @@ Template.operations.events({
     var operation = $(':button[name="codeselect"]').val();
 
     if(operation !== "waiting") {
+
+      $(':button[name="codeselect"]').val("waiting");
+
+      var operationTree = OperationsTree.findOne({
+        operation: operation
+      });
+      if(operationTree){
+        OperationsTree.update(
+          operationTree._id,
+          { $set: {
+              updatedAt: new Date()
+            }
+          });
+      }else{
+        var date = new Date()
+        OperationsTree.insert({
+          operation: operation,
+          createdAt: date,
+          updatedAt: date
+        })
+        operationTree = OperationsTree.findOne({
+          operation: operation
+        })
+      }
+
       Operations.insert({
         project: this._id,
-        operation: operation,
+        operationTree: operationTree._id,
         createdAt: new Date()
       });
-      $(':button[name="codeselect"]').val("waiting");
+
+      var insert = Operations.findOne({
+        project: this._id,
+        operationTree: operationTree._id
+      })
+
+      console.log("operationCounter",Operations.find({operationTree:operationTree._id}).count())
+
+
     };
   },
 
@@ -20,8 +53,16 @@ Template.operations.events({
 Template.operations.helpers({
   // manage log bar
   operations: function() {
-    return Operations.find({
+    var operations = Operations.find({
       project: this._id
     });
+    return operations;
+  },
+
+  operationTree: function() {
+    var operationTree = OperationsTree.findOne({
+      _id: this.operationTree
+    })
+    return operationTree.operation;
   }
 })

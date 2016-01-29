@@ -1,7 +1,5 @@
 <template name="operations">
-	<!-- <script src="/lib/js/geometries/TextGeometry.js"></script>
-  <script src="/lib/js/utils/FontUtils.js"></script>
-	<script src="/lib/js/helvetiker_bold.typeface.js"></script>
+	<!-- <script src="/lib/js/helvetiker_bold.typeface.js"></script>
   <script src='/lib/js/OrbitControls.js'></script>
   <script src='/lib/js/ColladaLoader.js'></script>
   <script src='/lib/js/Projector.js'></script>
@@ -11,7 +9,8 @@
   <!-- original -->
   <!-- <script src='/lib/js/Sim.js'></script>
   <script src='/lib/js/Sim2.js'></script> -->
-  <!-- <script src="/lib/js/geometries/TextGeometry.js"></script> -->
+  <script src="/lib/js/geometries/TextGeometry.js"></script>
+  <script src="/lib/js/utils/FontUtils.js"></script>
   <script src="/lib/js/helvetiker_bold.typeface.js"></script>
   <script src='/lib/js/sim-main.js'></script>
 
@@ -29,7 +28,7 @@
   <nav id="log">
     <section>LOG</section>
     {{#each operations }}
-      <p class='log' boxCode='{{ operation }}'>{{ operation }}</p>
+      <p class='log' boxCode='{{ operationTree }}'>{{ operationTree }}</p>
     {{/each}}
   </nav>
   <nav id="info">
