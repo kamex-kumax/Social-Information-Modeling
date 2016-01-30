@@ -325,9 +325,7 @@ $(function(){
         font: "helvetiker",
         weight: "bold",
         style: "normal",
-        bevelThickness: 1,
-        bevelSize: 2,
-        bevelEnabled: true
+        bevelEnabled: false
       }
 
       var TextGeometry = new THREE.TextGeometry( label, textParameter);
@@ -337,61 +335,90 @@ $(function(){
         opacity: 0.5,
         transparent: true
       });
-      var text =  new THREE.Mesh( TextGeometry, Material );
+      var text = new THREE.Mesh( TextGeometry, Material );
+      text.geometry.computeBoundingBox();
+      var bbox = text.geometry.boundingBox;
+      var _x = bbox.min.x;
+      var _y = bbox.min.y;
+      var _z = bbox.min.z;
+      var _w = bbox.max.x;
+      var _h = bbox.max.y;
+      var _d = bbox.max.z;
 
-      console.log(w, h, d);
-
-      if((d>w && w>h) || (d>h && h>w)){
+      var asp1 = w/h;
+      var asp2 = d/h;
+      var dflg = 0;
+      console.log(asp1,asp2);
+      if(asp1 < 1.){
+        if(asp2 < 1.){
+          if(1/asp1 >= 1/asp2){
+            dflg = 2;
+            console.log("a1");
+          }else{
+            console.log("a2");
+            dflg = 3;
+          }
+        }else{
+          if(1/asp1 >= asp2){
+            console.log("b1");
+            dflg = 2;
+          }else{
+            console.log("b2");
+            dflg = 1;
+          }
+        }
+      }else{
+        if(asp2 < 1.){
+          if(asp1 >= 1/asp2){
+            console.log("c1");
+            dflg = 1;
+          }else{
+            console.log("c2");
+            dflg = 3;
+          }
+        }else{
+          if(asp1 >= asp2){
+            console.log("d1");
+            dflg = 0;
+          }else{
+            console.log("d2");
+            dflg = 1;
+          }
+        }
+      }
+      
+      if(dflg == 1){
+        text.scale.x = d/_w;
+        text.scale.y = h/_h;
+        text.scale.z = (w+2)/_d;
         text.rotation.set(0,Math.PI/2,0);
-        text.position.x = x-w/2;
-        text.position.y=y-h/2;
-        text.position.z=z+d/2;
-        console.log("pon00");
-        text.scale.x = d/w;
-        text.scale.y = (h*length)/w;
-        //text.scale.y=(h*length*0.8)/w;
-        text.scale.z = w/d;
-        console.log("pon00");
-      }
-
-      else if(h>w && w>d){
-        text.rotation.set(0,0,Math.PI/2)
-        text.position.x = x+w/2;
-        text.position.y = y-h/2;
-        text.position.z = z-d/2;
-        console.log("pon01");
-
-        text.scale.x = h/w;
-        text.scale.y = length;
-        console.log("pon01");
-        //text.scale.y=length*0.8;
-      }
-
-      else if(h>d && d>w ){
+        text.position.x = x-w/2-_x-1;
+        text.position.y = y-h/2-_y;
+        text.position.z = z+d/2-_z;
+      }else if(dflg == 2){
+        text.scale.x = h/_w;
+        text.scale.y = w/_h;
+        text.scale.z = (d+2)/_d;
+        text.rotation.set(0,0,Math.PI/2);
+        text.position.x = x+w/2-_x;
+        text.position.y = y-h/2-_y;
+        text.position.z = z-d/2-_z-1;
+      }else if(dflg == 3){
+        text.scale.x = h/_w;
+        text.scale.y = d/_h;
+        text.scale.z = (w+2)/_d;
         text.rotation.set(0,Math.PI/2,Math.PI/2);
-        text.position.x = x-w/2;
-        text.position.y = y-h/2;
-        text.position.z = z-d/2;
-        console.log("pon10");
-
-        text.scale.x = h/w;
-        //ext.scale.x=(0.9*h)/w;
-        text.scale.y = (length*d)/w;
-        //text.scale.y=(0.85*length*d)/w;
-        text.scale.z = w/d;
-        console.log("pon10");
+        text.position.x = x-w/2-_x-1;
+        text.position.y = y-h/2-_y;
+        text.position.z = z-d/2-_z;
+      }else{
+        text.scale.x = w/_w;
+        text.scale.y = h/_h;
+        text.scale.z = (d+2)/_d;
+        text.position.x = x-w/2-_x;
+        text.position.y = y-h/2-_y;
+        text.position.z = z-d/2-_z-1;
       }
-
-      else{
-        text.position.x = x-w/2;
-        text.position.y = y-h/2;
-        text.position.z = z-d/2;
-        console.log("pon11");
-
-        text.scale.y = (h*length)/w;
-        //text.scale.y=(h*length*0.9)/w;
-      }
-
       return text
    };
 });
