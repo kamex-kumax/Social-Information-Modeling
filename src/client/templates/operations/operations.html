@@ -22,8 +22,12 @@
     <form class="operation">
       <input type="button" name="codeselect" value="waiting" class="codeselect"/>
     </form>
-    <p id="label" class="addLabel operationButton">LABEL</p>
+    <!-- <p id="label" class="addLabel operationButton">LABEL</p> -->
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"> ADD LABEL</button>
+    <br>
+    <br>
     <p id="label" class="suggestionsList operationButton">SUGGEST</p>
+
   </nav>
 
   <nav id="log">
@@ -36,6 +40,34 @@
   <nav id="info">
     <p>Social Information Modeller Ver0.1</p>
   </nav>
+
+  <!-- Modal -->
+  <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">ADD LABEL</h4>
+        </div>
+        <div class="modal-body">
+          <form role="form">
+            <div class="form-group">
+              <label for="addLabelHere">Box Label</label>
+                <input type="text" class="form-control"
+                id="addLabelText" placeholder="Name Your Box"/>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button id="addLabelTextSubmit" type="button" class="btn btn-primary" data-dismiss="modal">Add Button</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <script>
   $("#choice").on(

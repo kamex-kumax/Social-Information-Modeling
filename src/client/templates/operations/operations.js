@@ -46,10 +46,6 @@ Template.operations.events({
     };
   },
 
-  "click .addLabel": function() {
-    Modal.show('addLabel')
-  },
-
   "click .suggestionsList": function() {
     Modal.show('suggestionsList')
   }
