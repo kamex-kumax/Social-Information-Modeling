@@ -1,18 +1,17 @@
-<template name="addLabel">
+<template name="suggestionsList">
     <div class="modal">
         <div class="modal-dialog">
             <div class="modal-content">
 
                 <div class="modal-header">
                   <a class="close" data-dismiss="modal">×</a>
-                    <h4 class="modal-title">Add Label</h4>
+                    <h4 class="modal-title">Suggestions List</h4>
                 </div>
 
                 <div class="modal-body">
-                  <form class="contact" name="contact">
-                      <label class="label" for="labelName">What's the box's label?</label><br>
-                      <input type="text" name="labelName" class="input-xlarge"><br>
-                  </form>
+                  {{#each operationsList}}
+                    <p>{{ operation }}</p>
+                  {{/each}}
                 </div>
 
                 <div class="modal-footer">

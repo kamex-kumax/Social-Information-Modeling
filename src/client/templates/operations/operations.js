@@ -20,6 +20,7 @@ Template.operations.events({
         var date = new Date()
         OperationsTree.insert({
           operation: operation,
+          parent: operationParent(operation),
           createdAt: date,
           updatedAt: date
         })
@@ -45,8 +46,8 @@ Template.operations.events({
     };
   },
 
-  "click .addLabel": function() {
-    Modal.show('addLabel')
+  "click .suggestionsList": function() {
+    Modal.show('suggestionsList')
   }
 })
 
@@ -66,3 +67,13 @@ Template.operations.helpers({
     return operationTree.operation;
   }
 })
+
+function operationParent(operation) {
+  var parent = operation.substr(0, (operation.length-3)) + operation.substr(-2);
+  console.log(parent);
+  if ( parent.length > 2 ) {
+    return parent
+  } else {
+    return "init"
+  }
+}

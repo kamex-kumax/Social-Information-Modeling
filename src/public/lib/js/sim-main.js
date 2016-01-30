@@ -291,13 +291,21 @@ $(function(){
      });
    };
 
-   //  text mapping
-   $('#label').on('click', function(){
-     if(selectedBox){
-       var text = textMapping(selectedBox, textLabel, textColor);
-       scene.add(text);
-     }
-   });
+  $('#addLabelTextSubmit').on('click', function(){
+    var label = $('#addLabelText').val();
+    console.log("hogegege", label);
+    if(selectedBox){
+      data = label.match(/[^a-z]/gi);
+      if (data) {
+        alert ("Sorry! Only Alphabet is Allowed");
+        return
+      }
+      var text = textMapping(selectedBox, label.toUpperCase(), textColor);
+      scene.add(text);
+    } else {
+      alert("Please Select A Box!")
+    }
+  });
 
    function textMapping(box, label, color){
       var parameters = box.geometry.parameters,
