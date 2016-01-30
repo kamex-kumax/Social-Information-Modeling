@@ -41,6 +41,13 @@ nav section{
   margin-top: 20px;
 }
 
+.suggestionsList{
+  background-color: #ff0000;
+}
+
+.howto{
+  margin-top: 50px;
+}
 
   /*log*/
 #log{
@@ -49,6 +56,7 @@ nav section{
 .log{
   cursor: pointer;
 }
+
 #info{
   top: auto;
   bottom: 0;

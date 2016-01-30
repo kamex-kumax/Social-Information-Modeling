@@ -1,0 +1,25 @@
+<template name="suggestionsList">
+    <div class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                  <a class="close" data-dismiss="modal">×</a>
+                    <h4 class="modal-title">Suggestions List</h4>
+                </div>
+
+                <div class="modal-body">
+                  {{#each operationsList}}
+                    <p>{{ operation }}</p>
+                  {{/each}}
+                </div>
+
+                <div class="modal-footer">
+                  <input class="btn btn-success addLabelForm" type="submit" value="Add" id="submit">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template>
